@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planetarium</title>
+    <link rel="stylesheet" href="assets/css/root.css">
+    <link rel="stylesheet" href="assets/css/reset.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <script src="assets/js/app.js"></script>
+</head>
+
+<body>
+    <header>
+        <button onclick="clearInterval(animation)">Stop animation</button>
+        <button onclick="draw()">Stop animation</button>
+    </header>
+    <main>
+        <svg height="100%" width="100%" viewBox="0 0 1600 900">
+            <!-- <circle cx="50%" cy="50%" r="100" class="black" /> -->
+        </svg>
+    </main>
+    <script>
+        let debug = true
+        const _CANVAS = {
+            w: 1600,
+            h: 900
+        }
+        let s1 = {
+            type: "halfHex",
+            fill: "black",
+            side: 100,
+            x: 0.5,
+            y: 0.5,
+            rotation: 0,
+        }
+        let s2 = {
+            type: "hexagon",
+            fill: "black",
+            side: 100,
+            x: 0.75,
+            y: 0.25,
+            rotation: 0,
+        }
+        let s3 = {
+            type: "halfCircle",
+            fill: "black",
+            side: 100,
+            x: 0.75,
+            y: 0.75,
+            rotation: 0,
+        }
+        function drawShape(shape) {
+            let x = _CANVAS.w * shape.x
+            let y = _CANVAS.h * shape.y
+
+            if (shape.type == "hexagon") {
+                let r = Math.sqrt(3) / 2 * shape.side
+                return `<polygon points="
+                ${x},  ${y + shape.side}
+                ${x - r},  ${y + shape.side / 2}
+                ${x - r},  ${y - shape.side / 2}
+                ${x},  ${y - shape.side}
+                ${x + r},  ${y - shape.side / 2}
+                ${x + r},  ${y + shape.side / 2}
+                "
+                class="${shape.fill}"
+                style="
+                    transform-origin: ${x}px ${y}px;
+                    transform: rotate(${shape.rotation}deg);
+                "/>
+
+                ${debug == true ? `<circle cx="${x}" cy="${y}" r="5" class="center" />` : ''}`
+            }
+            if (shape.type == "halfHex") {
+                let r = Math.sqrt(3) / 2 * shape.side
+                return `<polygon points="
+                ${x - r},  ${y}
+                ${x - r},  ${y - shape.side / 2}
+                ${x},  ${y - shape.side}
+                ${x + r},  ${y - shape.side / 2}
+                ${x + r},  ${y}
+                "
+                class="${shape.fill}"
+                style="
+                    transform-origin: ${x}px ${y}px;
+                    transform: rotate(${shape.rotation}deg);
+                "/>
+                
+                ${debug == true ? `<circle cx="${x}" cy="${y}" r="5" class="center" />` : ''}`
+
+            }
+            if (shape.type == "circle") {
+                return `<circle cx="${x}" cy="${y}" r="${shape.side}" 
+
+                class="${shape.fill}"
+                style="
+                    transform-origin: ${x}px ${y}px;
+                    transform: rotate(${shape.rotation}deg);
+                "/>
+
+                ${debug == true ? `<circle cx="${x}" cy="${y}" r="5" class="center" />` : ''}`
+            }
+            if (shape.type == "halfCircle") {
+
+                let x = _CANVAS.w * shape.x
+                let y = _CANVAS.h * shape.y
+                return `
+                <path d="
+                M ${x + shape.side} ${y}
+                A ${shape.side} ${shape.side} 0 0 0 ${x - shape.side} ${y}
+                Z"
+
+                class="${shape.fill}"
+                style="
+                    transform-origin: ${x}px ${y}px;
+                    transform: rotate(${shape.rotation}deg);
+                "/>
+
+                ${debug == true ? `<circle cx="${x}" cy="${y}" r="5" class="center" />` : ''}`
+
+            }
+        }
+        let animation;
+        function draw() {
+            clearInterval(animation)
+            animation = setInterval(function () {
+                document.querySelector('svg').innerHTML = '';
+                document.querySelector('svg').innerHTML += drawShape(s1)
+                document.querySelector('svg').innerHTML += drawShape(s2)
+                document.querySelector('svg').innerHTML += drawShape(s3)
+                s1.rotation += 1
+                s2.rotation -= 1
+                s3.rotation += 4
+            }, 1000 / 25);
+        }
+    </script>
+</body>
+
+</html>

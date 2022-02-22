@@ -1,0 +1,8 @@
+:root{
+    ---black: hsla(0, 0%, 6%, 1);
+    --gray-9: hsla(0, 0%, 9%, 1);
+    --gray-5: hsla(0, 0%, 40%, 1);
+    --gray-1: hsla(0, 0%, 60%, 1);
+    ---white: hsla(47, 53%, 97%, 1);
+    --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}

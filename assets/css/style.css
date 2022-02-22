@@ -1,0 +1,27 @@
+body {
+	width: 100vw;
+	height: 100vh;
+	font-size: 2rem;
+	color: var(---black);
+	background-color: white;
+	font-family: var(--font-sans);
+	font-weight: bold;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+main {
+	width: 80vw;
+	aspect-ratio: 16/9;
+	border: 0.5px solid red;
+}
+svg .black
+{
+    fill:var(---black);
+}
+svg .center{
+    fill: red;
+}
+svg .rotate-90{
+    transform: rotate(90deg);
+}
